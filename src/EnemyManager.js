@@ -11,7 +11,7 @@ export default class EnemyManager {
     update() {
         this.spawnTimer++;
 
-        if (this.spawnTimer > 100) {
+        if (this.spawnTimer > 50) {
             this.spawnEnemy();
             this.spawnTimer = 0;
         }

@@ -5,7 +5,7 @@ export default class Road {
 
         this.sideWidth = 225;
         this.scrollY = 0;
-        this.speed = 8;
+        this.speed = 16;
     }
 
     update() {
