@@ -18,6 +18,18 @@ export default class Player {
         ctx.fillStyle = "red"
         ctx.fillRect(this.x, this.y, this.width, this.height);
         this.move()
+        this.collision();
+    }
+
+    collision() {
+        // left
+        if(this.x < 128) {
+            this.x = 128;
+        }
+        // right
+        if(this.x > 384-this.width) {
+            this.x = 384-this.width;
+        }
     }
 
     move() {

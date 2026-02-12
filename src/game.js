@@ -13,6 +13,10 @@ export default class Game {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = "black";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        
+        // draw road
+        this.ctx.fillStyle = "gray";
+        this.ctx.fillRect(128, 0, this.canvas.width-256, this.canvas.height);
 
         // draw player car
         player.draw(this.ctx)
