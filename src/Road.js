@@ -4,10 +4,15 @@ export default class Road {
         this.canvasHeight = canvasHeight;
 
         this.sideWidth = 225;
+        this.scrollY = 0;
+        this.speed = 8;
     }
 
     update() {
-
+        this.scrollY += this.speed;
+        if (this.scrollY > 80) {
+            this.scrollY = 0;
+        }
     }
 
     draw(ctx) {

@@ -2,6 +2,7 @@ import Player from "./Player.js";
 import Road from "./Road.js";
 const roadWidth = 225;
 import InputState from "./InputState.js";
+import EnemyManager from "./EnemyManager.js";
 
 export default class Game {
   constructor(canvas, ctx) {
@@ -15,6 +16,7 @@ export default class Game {
 
     this.player = new Player(365, 500, roadLeft, roadRight);
     this.input = new InputState();
+    this.enemyManager = new EnemyManager(roadLeft, roadRight);
   }
 
   draw() {
@@ -28,11 +30,15 @@ export default class Game {
 
     // draw player car
     this.player.draw(this.ctx);
+
+    // draw enemies
+    this.enemyManager.draw(this.ctx);
   }
 
   update() {
     this.road.update();
     this.player.update(this.input);
+    this.enemyManager.update();
   }
 
 }
