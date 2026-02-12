@@ -1,10 +1,13 @@
 export default class Player {
-    constructor(x, y) {
+    constructor(x, y, roadLeft, roadRight) {
         this.x = x;
         this.y = y;
         this.width = 24;
         this.height = 40;
         this.speed = 6;
+
+        this.roadLeft = roadLeft;
+        this.roadRight = roadRight;
     }
 
     draw(ctx) {
@@ -12,20 +15,21 @@ export default class Player {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    update(left, right) {
-        if(left) this.x -= this.speed;
-        if(right) this.x += this.speed;
+    update(input) {
+        if(input.left) this.x -= this.speed;
+        if(input.right) this.x += this.speed;
+
         this.collision();
     }
 
     collision() {
         // left
-        if(this.x < 225) {
-            this.x = 225;
+        if(this.x < this.roadLeft) {
+            this.x = this.roadLeft;
         }
         // right
-        if(this.x > 750-225-this.width) {
-            this.x = 750-225-this.width;
+        if(this.x > this.roadRight - this.width) {
+            this.x = this.roadRight - this.width;
         }
     }
 }

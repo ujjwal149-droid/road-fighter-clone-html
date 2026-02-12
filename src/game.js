@@ -1,55 +1,38 @@
-import Player from './Player.js'
-
-const roadWidth = 225
+import Player from "./Player.js";
+import Road from "./Road.js";
+const roadWidth = 225;
+import InputState from "./InputState.js";
 
 export default class Game {
-    constructor(canvas, ctx) {
-        this.canvas = canvas;
-        this.ctx = ctx;
-        this.player = new Player(365, 500);
+  constructor(canvas, ctx) {
+    this.canvas = canvas;
+    this.ctx = ctx;
+  
+    this.road = new Road(canvas.width, canvas.height);
 
-        this.rightPressed = false;
-        this.leftPressed = false;
+    const roadLeft = this.road.sideWidth;
+    const roadRight = canvas.width - this.road.sideWidth;
 
-        document.addEventListener("keydown", this.keydown);
-        document.addEventListener("keyup", this.keyup);
-    }
+    this.player = new Player(365, 500, roadLeft, roadRight);
+    this.input = new InputState();
+  }
 
-    draw() {
-        // draw bg
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "black";
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // draw road
-        this.ctx.fillStyle = "gray";
-        this.ctx.fillRect(roadWidth, 0, this.canvas.width-2*roadWidth, this.canvas.height);
+  draw() {
+    // draw bg
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // draw player car
-        this.player.draw(this.ctx)
-    }
+    // draw road
+    this.road.draw(this.ctx);
 
-    update() {
-        this.player.update(this.leftPressed, this.rightPressed);
-    }
+    // draw player car
+    this.player.draw(this.ctx);
+  }
 
-    keydown = event => {
-        if(event.code == "ArrowRight") {
-            this.rightPressed = true;
-        }
+  update() {
+    this.road.update();
+    this.player.update(this.input);
+  }
 
-        if(event.code == "ArrowLeft") {
-            this.leftPressed = true;
-        }
-    }
-
-    keyup = event => {
-        if(event.code == "ArrowRight") {
-            this.rightPressed = false;
-        }
-
-        if(event.code == "ArrowLeft") {
-            this.leftPressed = false;
-        }
-    }
 }
