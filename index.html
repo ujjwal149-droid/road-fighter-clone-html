@@ -4,10 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Road Fighter Clone</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .footer {
+            background: #b1b1b1;
+            width: 100%;
+            margin: 0;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .game-container {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #game-canvas {
+            width: 512px;
+            height: 448px;
+            background: #000;
+        }
+    </style>
 </head>
 <body>
     <div class="game-container">
-        <h1>Road Fighter Clone</h1>
+        <div class="header"><h1>Road Fighter Clone</h1></div>
         <canvas id="game-canvas"></canvas>
         <div class="footer">Made by Ujjawal Tyagi...</div>
     </div>
