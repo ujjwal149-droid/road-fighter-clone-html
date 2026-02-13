@@ -7,7 +7,7 @@ export default class Enemy {
         this.speed = 6;
 
         this.image = new Image();
-        this.image.src = "../assets/sprites/enemy-car.png"
+        this.image.src = "./assets/sprites/enemy-car.png"
     }
 
     update() {

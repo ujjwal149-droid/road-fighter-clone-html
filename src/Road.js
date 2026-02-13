@@ -15,7 +15,7 @@ export default class Road {
 
     // Image
     this.image = new Image();
-    this.image.src = "../assets/sprites/road-chunk01.png";
+    this.image.src = "./assets/sprites/road-chunk01.png";
 
     this.loaded = false;
     this.imageHeight = 0;

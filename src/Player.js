@@ -6,7 +6,7 @@ export default class Player {
         this.height = 40;
         this.speed = 6;
         this.image = new Image();
-        this.image.src = "../assets/sprites/player-car.png"
+        this.image.src = "./assets/sprites/player-car.png"
 
         this.roadLeft = roadLeft;
         this.roadRight = roadRight;
