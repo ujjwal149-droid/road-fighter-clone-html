@@ -21,9 +21,7 @@ export default class MenuState {
     this.game.ctx.textAlign = "center";
     this.game.ctx.fillText("ROAD FIGHTER CLONE", this.game.canvas.width / 2, 150)
 
-    this.game.ctx.font = "bold 20px road-fighter";
     this.game.ctx.fillStyle = "red"
-    this.game.ctx.textAlign = "center";
     this.game.ctx.fillText("PRESS ENTER", this.game.canvas.width / 2, 300)
   }
 

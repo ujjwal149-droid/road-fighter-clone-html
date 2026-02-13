@@ -1,6 +1,8 @@
 import Player from "../Player.js";
 import Road from "../Road.js";
 
+import GameOverState from "./GameOverState.js";
+
 import EnemyManager from "../EnemyManager.js";
 
 const levelDistance = 10000;
@@ -18,8 +20,8 @@ export default class RunningState {
     this.player = new Player(365, 500, this.roadLeft, this.roadRight);
     this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
 
-    this.maxFuel = 100;
-    this.fuel = 100;
+    this.maxFuel = 5;
+    this.fuel = 5;
     this.fuelDrainRate = 0.05; // per frame
 
     this.score = 0;
@@ -86,15 +88,8 @@ export default class RunningState {
     );
 
     // draw fuel tracker
-    this.game.ctx.font = "normal 16px road-fighter";
-    this.game.ctx.fillStyle = "white";
-    this.game.ctx.textAlign = "left";
     this.game.ctx.fillText("FUEL", this.roadRight + 32, this.game.canvas.height / 2 + 100,
     );
-
-    this.game.ctx.font = "normal 24proad-fighter";
-    this.game.ctx.fillStyle = "white";
-    this.game.ctx.textAlign = "left";
     this.game.ctx.fillText(Math.floor(this.fuel), this.roadRight + 112, this.game.canvas.height / 2 + 148,
     );
   }
@@ -110,6 +105,7 @@ export default class RunningState {
     this.fuel -= this.fuelDrainRate;
     if (this.fuel <= 0) {
       this.fuel = 0;
+      this.game.setState(new GameOverState(this.game))
       console.log("Out of fuel!");
     }
   }
