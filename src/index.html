@@ -18,30 +18,37 @@
         }
 
         body {
-            padding: 0;
+            padding: 0 24px;
             margin: 0;
             box-sizing: border-box;
             font-family: "road-fighter";
+            background-color: #fac36c;
         }
 
         .footer,
         .header {
-            background: #b1b1b1;
+            background: #3d3d3d;
             width: 100%;
             margin: 0;
             text-align: center;
+            color: white;
+        }
+
+        .footer {
+            padding: 24px 0;
+            font-size: small;
         }
 
         .game-container {
             display: flex;
             height: 100vh;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         #game-canvas {
-            border: 4px solid red;
+            border: 4px solid rgb(255, 255, 255);
             image-rendering: pixelated;
         }
     </style>
@@ -49,11 +56,23 @@
 
 <body>
     <div class="game-container">
-        <div class="header">
+        <!-- <div class="header">
             <h1>Road Fighter Clone</h1>
-        </div>
+        </div> -->
         <canvas id="game-canvas"></canvas>
-        <div class="footer">Made by Ujjawal Tyagi...</div>
+        <div style="height: 600px; padding-left: 48px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h2 style="text-decoration: underline;">Road fighter clone</h1>
+                    <p>This was made by Ujjawal Tyagi as a learning project.</p>
+                    <br>
+                    <h3>Controls</h3>
+                    <p>&nbsp; &bullet; Left Arrow - Steer Left</p>
+                    <p>&nbsp; &bullet; Right Arrow - Steer Right</p>
+                    <p>&nbsp; &bullet; X - Accelerate</p>
+            </div>
+            <a href="https://github.com/ujjwal149-droid/road-fighter-clone-html">Github</a>
+        </div>
+        <!-- <div class="footer">Made by Ujjawal Tyagi...</div> -->
     </div>
 
     <script type="module" src="main.js"></script>
