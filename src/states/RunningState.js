@@ -14,14 +14,14 @@ export default class RunningState {
 
     this.road = new Road(this.game.canvas.width, this.game.canvas.height);
 
-    this.roadLeft = this.road.sideWidth;
-    this.roadRight = this.game.canvas.width - this.road.sideWidth;
+    this.roadLeft = this.road.roadLeft;
+    this.roadRight = this.road.roadRight;
 
     this.player = new Player(365, 500, this.roadLeft, this.roadRight);
     this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
 
-    this.maxFuel = 5;
-    this.fuel = 5;
+    this.maxFuel = 100;
+    this.fuel = 100;
     this.fuelDrainRate = 0.05; // per frame
 
     this.score = 0;
@@ -77,20 +77,20 @@ export default class RunningState {
     this.game.ctx.font = "normal 16px road-fighter";
     this.game.ctx.fillStyle = "white";
     this.game.ctx.textAlign = "left";
-    this.game.ctx.fillText("0000000", this.roadRight + 32, this.game.canvas.height / 2 - 200,
+    this.game.ctx.fillText("0000000", this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 - 200,
     );
 
     // draw speed
     this.game.ctx.font = "normal 16px road-fighter";
     this.game.ctx.fillStyle = "white";
     this.game.ctx.textAlign = "left";
-    this.game.ctx.fillText("000 km/h", this.roadRight + 32, this.game.canvas.height / 2 - 100,
+    this.game.ctx.fillText("000 km/h", this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 - 100,
     );
 
     // draw fuel tracker
-    this.game.ctx.fillText("FUEL", this.roadRight + 32, this.game.canvas.height / 2 + 100,
+    this.game.ctx.fillText("FUEL",this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 + 100,
     );
-    this.game.ctx.fillText(Math.floor(this.fuel), this.roadRight + 112, this.game.canvas.height / 2 + 148,
+    this.game.ctx.fillText(Math.floor(this.fuel), this.road.chunkWidth + 80 + 112, this.game.canvas.height / 2 + 148,
     );
   }
 

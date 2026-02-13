@@ -1,38 +1,64 @@
 export default class Road {
-    constructor(canvasWidth, canvasHeight) {
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
+  constructor(canvasWidth, canvasHeight) {
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
 
-        this.sideWidth = 225;
-        this.scrollY = 0;
-        this.speed = 16;
+    // Road layout
+    this.chunkWidth = 480;
+    this.roadWidth = 210;
+    this.roadLeft = 220;
+    this.roadRight = this.roadLeft + this.roadWidth;
+
+    // Scrolling
+    this.scrollY = 0;
+    this.speed = 16;
+
+    // Image
+    this.image = new Image();
+    this.image.src = "../assets/sprites/road-chunk01.png";
+
+    this.loaded = false;
+    this.imageHeight = 0;
+
+    this.image.onload = () => {
+      this.loaded = true;
+      this.imageHeight = this.canvasHeight;
+    };
+  }
+
+  update() {
+    if (!this.loaded) return;
+
+    this.scrollY += this.speed;
+
+    // Reset once full image height passed
+    if (this.scrollY >= this.imageHeight) {
+      this.scrollY = 0;
     }
+  }
 
-    update() {
-        this.scrollY += this.speed;
-        if (this.scrollY > 80) {
-            this.scrollY = 0;
-        }
-    }
+  draw(ctx) {
+    if (!this.loaded) return;
 
-    draw(ctx) {
-        ctx.fillStyle = "gray";
-        ctx.fillRect(
-            this.sideWidth,
-            0,
-            this.canvasWidth - 2 * this.sideWidth,
-            this.canvasHeight
-        );
+    // Draw first image
+    ctx.drawImage(
+      this.image,
+      80,
+      this.scrollY,
+      this.chunkWidth,
+      this.imageHeight,
+    );
 
-        // center dashed lines
-        ctx.fillStyle = "white";
-        for (let i = -40; i < this.canvasHeight; i += 80) {
-            ctx.fillRect(
-                this.canvasWidth / 2 - 5,
-                i + this.scrollY,
-                10,
-                40
-            );
-        }
-    }
+    // Draw second image directly above it
+    ctx.drawImage(
+      this.image,
+      80,
+      this.scrollY - this.imageHeight,
+      this.chunkWidth,
+      this.imageHeight,
+    );
+
+    //road preview
+    //  ctx.fillRect(this.roadLeft, 0, this.roadWidth, this.imageHeight)
+  }
 }
