@@ -19,7 +19,6 @@ export default class Player {
     update(input) {
         if(input.left) this.x -= this.speed;
         if(input.right) this.x += this.speed;
-
         this.collision();
     }
 
