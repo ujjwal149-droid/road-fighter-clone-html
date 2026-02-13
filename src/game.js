@@ -1,44 +1,25 @@
-import Player from "./Player.js";
-import Road from "./Road.js";
-const roadWidth = 225;
-import InputState from "./InputState.js";
-import EnemyManager from "./EnemyManager.js";
+import MenuState from "./states/MenuState.js";
+import RunningState from "./states/RunningState.js";
 
 export default class Game {
   constructor(canvas, ctx) {
     this.canvas = canvas;
     this.ctx = ctx;
-  
-    this.road = new Road(canvas.width, canvas.height);
 
-    const roadLeft = this.road.sideWidth;
-    const roadRight = canvas.width - this.road.sideWidth;
+    // start with menu
+    this.setState(new MenuState(this.canvas, this.ctx));
+  }
 
-    this.player = new Player(365, 500, roadLeft, roadRight);
-    this.input = new InputState();
-    this.enemyManager = new EnemyManager(roadLeft, roadRight);
+  setState(state) {
+    this.currentState = state;
   }
 
   draw() {
-    // draw bg
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-    // draw road
-    this.road.draw(this.ctx);
-
-    // draw player car
-    this.player.draw(this.ctx);
-
-    // draw enemies
-    this.enemyManager.draw(this.ctx);
+    this.currentState.draw();
   }
 
   update() {
-    this.road.update();
-    this.player.update(this.input);
-    this.enemyManager.update();
+    this.currentState.update();
   }
 
 }
