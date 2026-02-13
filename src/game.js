@@ -1,3 +1,5 @@
+import InputState from "./InputState.js";
+
 import MenuState from "./states/MenuState.js";
 import RunningState from "./states/RunningState.js";
 
@@ -6,12 +8,18 @@ export default class Game {
     this.canvas = canvas;
     this.ctx = ctx;
 
+    this.input = new InputState();
+
     // start with menu
-    this.setState(new MenuState(this.canvas, this.ctx));
+    this.setState(new MenuState(this));
   }
 
-  setState(state) {
-    this.currentState = state;
+  setState(newState) {
+    if(this.currentState) {
+      this.currentState.exit();
+    }
+    this.currentState = newState;
+    this.currentState.enter();
   }
 
   draw() {
@@ -20,6 +28,10 @@ export default class Game {
 
   update() {
     this.currentState.update();
+  }
+
+  handleInput() {
+    this.currentState.handleInput(this.input);
   }
 
 }

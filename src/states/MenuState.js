@@ -1,9 +1,8 @@
-import InputState from "../InputState.js";
+import RunningState from "./RunningState.js";
 
 export default class MenuState {
-  constructor(canvas, ctx) {
-    this.canvas = canvas;
-    this.ctx = ctx;
+  constructor(game) {
+    this.game = game;
   }
 
   enter() {
@@ -12,25 +11,32 @@ export default class MenuState {
 
   draw() {
     // draw menu bg
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.fillStyle = "black";
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.game.ctx.clearRect(0, 0, this.game.canvas.width, this.game.canvas.height);
+    this.game.ctx.fillStyle = "black";
+    this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height);
 
     // centre title
-    this.ctx.font = "bold 48px Arial";
-    this.ctx.fillStyle = "white"
-    this.ctx.textAlign = "center";
-    this.ctx.fillText("ROAD FIGHTER CLONE", this.canvas.width / 2, 150)
+    this.game.ctx.font = "bold 48px Arial";
+    this.game.ctx.fillStyle = "white"
+    this.game.ctx.textAlign = "center";
+    this.game.ctx.fillText("ROAD FIGHTER CLONE", this.game.canvas.width / 2, 150)
 
-    this.ctx.font = "bold 32px Arial";
-    this.ctx.fillStyle = "red"
-    this.ctx.textAlign = "center";
-    this.ctx.fillText("PRESS ENTER", this.canvas.width / 2, 300)
+    this.game.ctx.font = "bold 32px Arial";
+    this.game.ctx.fillStyle = "red"
+    this.game.ctx.textAlign = "center";
+    this.game.ctx.fillText("PRESS ENTER", this.game.canvas.width / 2, 300)
   }
 
-  update() {}
+  update() {
 
-  handleInput() {}
+  }
+
+  handleInput(input) {
+    if(input.enter) {
+        input.enter = false;
+        this.game.setState(new RunningState(this.game))
+    }
+  }
 
   exit() {}
 }

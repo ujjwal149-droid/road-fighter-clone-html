@@ -11,6 +11,7 @@ const game = new Game(canvas, ctx);
 function gameLoop() {
     game.draw();
     game.update();
+    game.handleInput();
     requestAnimationFrame(gameLoop);
 }
 
