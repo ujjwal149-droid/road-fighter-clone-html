@@ -4,6 +4,7 @@ import Road from "../Road.js";
 import GameOverState from "./GameOverState.js";
 
 import EnemyManager from "../EnemyManager.js";
+import WinState from "./WinState.js";
 
 const levelDistance = 10000;
 
@@ -163,16 +164,26 @@ export default class RunningState {
     }
   }
 
-
   onFinishCrossed() {
-  this.speed = 0;
-  this.maxSpeed = 0;
-  this.acceleration = 0;
-  this.road.speed = 0;
+    this.speed = 0;
+    this.maxSpeed = 0;
+    this.acceleration = 0;
+    this.road.speed = 0;
 
-  this.levelCompleted = true;
-}
-
+    if (this.levelCompleted) return;
+    this.levelCompleted = true;
+    this.game.setState(
+      new WinState(
+        this.game,
+        this.road,
+        this.player,
+        this.enemyManager,
+        this.distanceTravelled,
+        this.fuel,
+        this.score,
+      ),
+    );
+  }
 
   handleInput(input) {}
 

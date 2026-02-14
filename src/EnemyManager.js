@@ -11,7 +11,7 @@ export default class EnemyManager {
     update(deltaTime, roadSpeed) {
         this.spawnTimer++;
 
-        if (this.spawnTimer > 50) {
+        if (this.spawnTimer > 40) {
             this.spawnEnemy();
             this.spawnTimer = 0;
         }

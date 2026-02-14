@@ -13,7 +13,7 @@ export default class Road {
 
     this.finishTriggered = false;
     this.finishSpawned = false;
-this.finishLineOffset = 450; // adjust based on sprite
+    this.finishLineOffset = 440; // adjust based on sprite
 
     // Segments
     this.segments = [];
@@ -63,7 +63,6 @@ this.finishLineOffset = 450; // adjust based on sprite
 
     for (let segment of this.segments) {
       segment.y += this.speed * deltaTime;
-
     }
 
     for (let segment of this.segments) {

@@ -10,16 +10,21 @@ export default class Player {
 
         this.roadLeft = roadLeft;
         this.roadRight = roadRight;
+
+        this.disableControl = false;
     }
 
     draw(ctx) {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
 
-    update(deltaTime, input) {
-        if(input.left) this.x -= this.speed * deltaTime;
-        if(input.right) this.x += this.speed * deltaTime;
-        this.collision();
+    update(deltaTime, input={}) {
+        if(!this.disableControl) {
+            if(input?.left) this.x -= this.speed * deltaTime;
+            if(input?.right) this.x += this.speed * deltaTime;
+            this.collision();
+        }
+        if(this.isfinished) this.y -= 400 * deltaTime;
     }
 
     collision() {
