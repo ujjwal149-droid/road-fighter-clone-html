@@ -34,7 +34,7 @@ export default class CountdownState {
     this.game.ctx.fillRect(0, 0, this.game.canvas.width, this.game.canvas.height,
     );
     // draw start road
-    this.road.drawStart(this.game.ctx);
+    this.road.draw(this.game.ctx);
     // draw player car
     this.player.draw(this.game.ctx);
     // draw level progress bar
@@ -76,6 +76,8 @@ export default class CountdownState {
 
     // draw Countdown
     this.game.ctx.font = "normal 24px road-fighter";
+    const remaining = Math.ceil(this.startTime - this.startTimer);
+    
     this.game.ctx.fillText(Math.ceil(this.startTime-this.startTimer), this.road.chunkWidth + 160 + 32, this.game.canvas.height / 2 + 200,
     );
   }
@@ -84,7 +86,7 @@ export default class CountdownState {
     this.startTimer+=deltaTime;
     if(this.startTimer > this.startTime) {
         this.startTime = 0;
-        this.game.setState(new RunningState(this.game))
+        this.game.setState(new RunningState(this.game, this.road, this.player))
     }
   }
 

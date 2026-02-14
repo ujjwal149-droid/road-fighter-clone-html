@@ -9,15 +9,14 @@ const levelDistance = 10000;
 
 
 export default class RunningState {
-  constructor(game) {
+  constructor(game, road, player) {
     this.game = game;
-
-    this.road = new Road(this.game.canvas.width, this.game.canvas.height);
+    this.road = road;
+    this.player = player;
 
     this.roadLeft = this.road.roadLeft;
     this.roadRight = this.road.roadRight;
 
-    this.player = new Player(this.roadLeft + this.road.roadWidth/2 - 20, 500, this.roadLeft, this.roadRight);
     this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
 
     this.maxFuel = 100;
@@ -117,7 +116,7 @@ export default class RunningState {
       }
      
     }
-     this.enemyManager.update(deltaTime);
+    this.enemyManager.update(deltaTime);
     this.enemyManager.moveUp = true;
     this.player.update(deltaTime, this.game.input);
     // fuel

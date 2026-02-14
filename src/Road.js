@@ -10,78 +10,73 @@ export default class Road {
     this.roadRight = this.roadLeft + this.roadWidth;
 
     // Scrolling
-    this.scrollY = 0;
-    this.scrollY2 = 0;
     this.speed = 1000;
 
-    // Image
-    this.image = new Image();
-    this.image.src = "./assets/sprites/road-chunk01.png";
+    // Segments
+    this.segments = [];
 
-    this.startRoadImage = new Image();
-    this.startRoadImage.src = "./assets/sprites/road-chunk00.png";
+    // Images
+    this.mainImage = new Image();
+    this.mainImage.src = "./assets/sprites/road-chunk01.png";
+
+    this.startImage = new Image();
+    this.startImage.src = "./assets/sprites/road-chunk00.png";
 
     this.loaded = false;
-    this.imageHeight = 0;
 
-    this.image.onload = () => {
+    this.mainImage.onload = () => {
+      this.segmentHeight = this.canvasHeight;
       this.loaded = true;
-      this.imageHeight = this.canvasHeight;
+      this.initSegments();
     };
+  }
+
+  initSegments() {
+    // Start segment
+    this.segments.push({
+      image: this.startImage,
+      y: 0,
+      isStart: true,
+    });
+
+    // Main segment above it
+    this.segments.push({
+      image: this.mainImage,
+      y: -this.segmentHeight,
+      isStart: false,
+    });
   }
 
   update(deltaTime) {
     if (!this.loaded) return;
 
-    this.scrollY += this.speed * deltaTime;
-    this.scrollY2 += this.speed * deltaTime;
-
-    // Reset once full image height passed
-    if (this.scrollY >= 2*this.imageHeight) {
-      this.scrollY = this.imageHeight;
+    for (let segment of this.segments) {
+      segment.y += this.speed * deltaTime;
     }
-  }
 
-  drawStart(ctx) {
-        ctx.drawImage(
-      this.startRoadImage,
-      80,
-      0,
-      this.chunkWidth,
-      this.imageHeight,
-    );
+    for (let segment of this.segments) {
+      if (segment.y >= this.segmentHeight) {
+        // Move to top
+        segment.y -= this.segmentHeight * this.segments.length;
+
+        // Main image after first scroll
+        segment.image = this.mainImage;
+        segment.isStart = false;
+      }
+    }
   }
 
   draw(ctx) {
     if (!this.loaded) return;
 
+    for (let segment of this.segments) {
       ctx.drawImage(
-      this.startRoadImage,
-      80,
-      this.scrollY2,
-      this.chunkWidth,
-      this.imageHeight,
-    );
-
-    // Draw first image
-    ctx.drawImage(
-      this.image,
-      80,
-      this.scrollY - this.imageHeight,
-      this.chunkWidth,
-      this.imageHeight,
-    );
-
-    // Draw second image directly above it
-    ctx.drawImage(
-      this.image,
-      80,
-      this.scrollY - 2 * this.imageHeight,
-      this.chunkWidth,
-      this.imageHeight,
-    );
-
-    //road preview
-    //  ctx.fillRect(this.roadLeft, 0, this.roadWidth, this.imageHeight)
+        segment.image,
+        80,
+        Math.floor(segment.y),
+        this.chunkWidth,
+        this.segmentHeight,
+      );
+    }
   }
 }
