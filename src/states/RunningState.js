@@ -93,7 +93,7 @@ export default class RunningState {
     this.game.ctx.fillStyle = "white";
     this.game.ctx.textAlign = "left";
     this.game.ctx.fillText(
-      "000 km/h",
+      Math.floor(this.speed / 10) + " km/h",
       this.road.chunkWidth + 80 + 32,
       this.game.canvas.height / 2 - 100,
     );
@@ -129,9 +129,24 @@ export default class RunningState {
     this.road.speed = this.speed;
     this.road.update(deltaTime);
 
+    for (let segment of this.road.segments) {
+      if (segment.isFinish) {
+        const finishY = segment.y + this.road.finishLineOffset;
+        const playerFrontY = this.player.y;
+
+        if (finishY >= playerFrontY) {
+          this.onFinishCrossed();
+        }
+      }
+    }
+
     // Distance tracking
     if (this.distanceTravelled < levelDistance) {
       this.distanceTravelled += this.speed * deltaTime;
+    }
+
+    if (this.distanceTravelled >= levelDistance) {
+      this.road.triggerFinish();
     }
 
     // Update enemies
@@ -147,6 +162,17 @@ export default class RunningState {
       console.log("Out of fuel!");
     }
   }
+
+
+  onFinishCrossed() {
+  this.speed = 0;
+  this.maxSpeed = 0;
+  this.acceleration = 0;
+  this.road.speed = 0;
+
+  this.levelCompleted = true;
+}
+
 
   handleInput(input) {}
 

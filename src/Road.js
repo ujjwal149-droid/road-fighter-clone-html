@@ -11,10 +11,13 @@ export default class Road {
 
     this.speed = 1000;
 
-
+    this.finishTriggered = false;
+    this.finishSpawned = false;
+this.finishLineOffset = 450; // adjust based on sprite
 
     // Segments
     this.segments = [];
+    
 
     // Images
     this.mainImage = new Image();
@@ -23,6 +26,9 @@ export default class Road {
     this.startImage = new Image();
     this.startImage.src = "./assets/sprites/road-chunk00.png";
 
+    this.finishImage = new Image();
+    this.finishImage.src = "./assets/sprites/road-chunk-finish.png";
+
     this.loaded = false;
 
     this.mainImage.onload = () => {
@@ -30,6 +36,10 @@ export default class Road {
       this.loaded = true;
       this.initSegments();
     };
+  }
+
+  triggerFinish() {
+    this.finishTriggered = true;
   }
 
   initSegments() {
@@ -51,9 +61,9 @@ export default class Road {
   update(deltaTime) {
     if (!this.loaded) return;
 
-    
     for (let segment of this.segments) {
       segment.y += this.speed * deltaTime;
+
     }
 
     for (let segment of this.segments) {
@@ -62,7 +72,14 @@ export default class Road {
         segment.y -= this.segmentHeight * this.segments.length;
 
         // Main image after first scroll
-        segment.image = this.mainImage;
+        if (this.finishTriggered && !this.finishSpawned) {
+          segment.image = this.finishImage;
+          segment.isFinish = true;
+          this.finishSpawned = true;
+        } else {
+          segment.image = this.mainImage;
+        }
+
         segment.isStart = false;
       }
     }
