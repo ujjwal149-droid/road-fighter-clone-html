@@ -26,8 +26,8 @@ export default class Game {
     this.currentState.draw();
   }
 
-  update() {
-    this.currentState.update();
+  update(deltaTime) {
+    this.currentState.update(deltaTime);
   }
 
   handleInput() {

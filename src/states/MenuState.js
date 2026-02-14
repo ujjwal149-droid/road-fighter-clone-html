@@ -1,4 +1,4 @@
-import RunningState from "./RunningState.js";
+import CountdownState from "./CountdownState.js";
 
 export default class MenuState {
   constructor(game) {
@@ -25,14 +25,14 @@ export default class MenuState {
     this.game.ctx.fillText("PRESS ENTER", this.game.canvas.width / 2, 300)
   }
 
-  update() {
+  update(deltaTime) {
 
   }
 
   handleInput(input) {
     if(input.enter) {
         input.enter = false;
-        this.game.setState(new RunningState(this.game))
+        this.game.setState(new CountdownState(this.game))
     }
   }
 

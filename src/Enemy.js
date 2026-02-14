@@ -1,17 +1,18 @@
 export default class Enemy {
-    constructor(x, y) {
+    constructor(x, y, spriteNumber) {
         this.x = x;
         this.y = y;
         this.width = 40;
         this.height = 40;
-        this.speed = 6;
-
+        this.speed = 400;
         this.image = new Image();
-        this.image.src = "./assets/sprites/enemy-car.png"
+        this.image.src = `./assets/sprites/enemy-car${spriteNumber}.png`;
     }
 
-    update() {
-        this.y += this.speed;
+    update(deltaTime, moveUp) {
+        if(moveUp) this.speed = -400;
+        else this.speed = 400;
+        this.y += this.speed * deltaTime;
     }
 
     draw(ctx) {

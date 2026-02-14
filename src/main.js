@@ -8,11 +8,16 @@ canvas.height = 600;
 
 const game = new Game(canvas, ctx);
 
-function gameLoop() {
+let lastTime = 0;
+
+function gameLoop(timestamp) {
+    const deltaTime = Math.min((timestamp-lastTime) / 1000, 0.1); // in seconds
+    lastTime = timestamp;
+    
+    game.update(deltaTime);
     game.draw();
-    game.update();
     game.handleInput();
     requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop)

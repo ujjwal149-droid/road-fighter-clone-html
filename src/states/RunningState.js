@@ -6,7 +6,7 @@ import GameOverState from "./GameOverState.js";
 import EnemyManager from "../EnemyManager.js";
 
 const levelDistance = 10000;
-let distanceTravelled = 0;
+
 
 export default class RunningState {
   constructor(game) {
@@ -17,12 +17,14 @@ export default class RunningState {
     this.roadLeft = this.road.roadLeft;
     this.roadRight = this.road.roadRight;
 
-    this.player = new Player(365, 500, this.roadLeft, this.roadRight);
+    this.player = new Player(this.roadLeft + this.road.roadWidth/2 - 20, 500, this.roadLeft, this.roadRight);
     this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
 
     this.maxFuel = 100;
     this.fuel = 100;
-    this.fuelDrainRate = 0.05; // per frame
+    this.fuelDrainRate = 1; // per second
+
+    this.distanceTravelled = 0;
 
     this.score = 0;
   }
@@ -58,7 +60,7 @@ export default class RunningState {
 
     // draw level progress bar
     const barHeight = this.game.canvas.height - 20;
-    const progress = distanceTravelled / levelDistance;
+    const progress = this.distanceTravelled / levelDistance;
 
     let redY = 10 + (1 - progress) * (barHeight - 25);
     this.game.ctx.fillStyle = "white";
@@ -68,7 +70,7 @@ export default class RunningState {
 
     this.game.ctx.fillStyle = "red";
     this.game.ctx.fillRect(15, redY, 25, 25);
-
+    
     this.drawUI();
   }
 
@@ -77,35 +79,52 @@ export default class RunningState {
     this.game.ctx.font = "normal 16px road-fighter";
     this.game.ctx.fillStyle = "white";
     this.game.ctx.textAlign = "left";
-    this.game.ctx.fillText("0000000", this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 - 200,
+    this.game.ctx.fillText(
+      "0000000",
+      this.road.chunkWidth + 80 + 32,
+      this.game.canvas.height / 2 - 200,
     );
 
     // draw speed
     this.game.ctx.font = "normal 16px road-fighter";
     this.game.ctx.fillStyle = "white";
     this.game.ctx.textAlign = "left";
-    this.game.ctx.fillText("000 km/h", this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 - 100,
+    this.game.ctx.fillText(
+      "000 km/h",
+      this.road.chunkWidth + 80 + 32,
+      this.game.canvas.height / 2 - 100,
     );
 
     // draw fuel tracker
-    this.game.ctx.fillText("FUEL",this.road.chunkWidth + 80 + 32, this.game.canvas.height / 2 + 100,
+    this.game.ctx.fillText(
+      "FUEL",
+      this.road.chunkWidth + 80 + 32,
+      this.game.canvas.height / 2 + 100,
     );
-    this.game.ctx.fillText(Math.floor(this.fuel), this.road.chunkWidth + 80 + 112, this.game.canvas.height / 2 + 148,
+    this.game.ctx.fillText(
+      Math.floor(this.fuel),
+      this.road.chunkWidth + 80 + 112,
+      this.game.canvas.height / 2 + 148,
     );
   }
 
-  update() {
-    this.road.update();
-    this.player.update(this.game.input);
-    if (distanceTravelled < levelDistance) {
-      distanceTravelled++;
+  update(deltaTime) {
+    if (this.game.input.x) {
+      this.enemyManager.moveUp = false;
+      this.road.update(deltaTime);
+      if (this.distanceTravelled < levelDistance) {
+        this.distanceTravelled += this.road.speed * deltaTime;
+      }
+     
     }
-    this.enemyManager.update();
+     this.enemyManager.update(deltaTime);
+    this.enemyManager.moveUp = true;
+    this.player.update(deltaTime, this.game.input);
     // fuel
-    this.fuel -= this.fuelDrainRate;
+    this.fuel -= this.fuelDrainRate * deltaTime;
     if (this.fuel <= 0) {
       this.fuel = 0;
-      this.game.setState(new GameOverState(this.game))
+      this.game.setState(new GameOverState(this.game));
       console.log("Out of fuel!");
     }
   }

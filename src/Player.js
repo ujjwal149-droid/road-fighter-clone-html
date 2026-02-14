@@ -4,7 +4,7 @@ export default class Player {
         this.y = y;
         this.width = 40;
         this.height = 40;
-        this.speed = 6;
+        this.speed = 200;
         this.image = new Image();
         this.image.src = "./assets/sprites/player-car.png"
 
@@ -16,9 +16,9 @@ export default class Player {
         ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
     }
 
-    update(input) {
-        if(input.left) this.x -= this.speed;
-        if(input.right) this.x += this.speed;
+    update(deltaTime, input) {
+        if(input.left) this.x -= this.speed * deltaTime;
+        if(input.right) this.x += this.speed * deltaTime;
         this.collision();
     }
 

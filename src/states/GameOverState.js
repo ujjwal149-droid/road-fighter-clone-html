@@ -20,8 +20,8 @@ export default class GameOverState {
     this.game.ctx.fillText("Over", this.game.canvas.width / 2, this.game.canvas.height/2+36)
   }
 
-  update() {
-    this.resetTimer+=1/60;
+  update(deltaTime) {
+    this.resetTimer+=deltaTime;
     if(this.resetTimer>this.resetTime) {
       this.game.setState(new MenuState(this.game))
     }

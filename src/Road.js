@@ -11,11 +11,15 @@ export default class Road {
 
     // Scrolling
     this.scrollY = 0;
-    this.speed = 16;
+    this.scrollY2 = 0;
+    this.speed = 1000;
 
     // Image
     this.image = new Image();
     this.image.src = "./assets/sprites/road-chunk01.png";
+
+    this.startRoadImage = new Image();
+    this.startRoadImage.src = "./assets/sprites/road-chunk00.png";
 
     this.loaded = false;
     this.imageHeight = 0;
@@ -26,25 +30,44 @@ export default class Road {
     };
   }
 
-  update() {
+  update(deltaTime) {
     if (!this.loaded) return;
 
-    this.scrollY += this.speed;
+    this.scrollY += this.speed * deltaTime;
+    this.scrollY2 += this.speed * deltaTime;
 
     // Reset once full image height passed
-    if (this.scrollY >= this.imageHeight) {
-      this.scrollY = 0;
+    if (this.scrollY >= 2*this.imageHeight) {
+      this.scrollY = this.imageHeight;
     }
+  }
+
+  drawStart(ctx) {
+        ctx.drawImage(
+      this.startRoadImage,
+      80,
+      0,
+      this.chunkWidth,
+      this.imageHeight,
+    );
   }
 
   draw(ctx) {
     if (!this.loaded) return;
 
+      ctx.drawImage(
+      this.startRoadImage,
+      80,
+      this.scrollY2,
+      this.chunkWidth,
+      this.imageHeight,
+    );
+
     // Draw first image
     ctx.drawImage(
       this.image,
       80,
-      this.scrollY,
+      this.scrollY - this.imageHeight,
       this.chunkWidth,
       this.imageHeight,
     );
@@ -53,7 +76,7 @@ export default class Road {
     ctx.drawImage(
       this.image,
       80,
-      this.scrollY - this.imageHeight,
+      this.scrollY - 2 * this.imageHeight,
       this.chunkWidth,
       this.imageHeight,
     );

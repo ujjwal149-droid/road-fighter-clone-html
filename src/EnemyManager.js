@@ -6,9 +6,10 @@ export default class EnemyManager {
         this.roadRight = roadRight;
         this.enemies = [];
         this.spawnTimer = 0;
+        this.moveUp = false;
     }
 
-    update() {
+    update(deltaTime) {
         this.spawnTimer++;
 
         if (this.spawnTimer > 50) {
@@ -16,10 +17,11 @@ export default class EnemyManager {
             this.spawnTimer = 0;
         }
 
-        this.enemies.forEach(enemy => enemy.update());
+        this.enemies.forEach(enemy => enemy.update(deltaTime, this.moveUp));
 
         // remove off-screen enemies
         this.enemies = this.enemies.filter(e => e.y < 600);
+        this.enemies = this.enemies.filter(e => e.y > -40);
     }
 
     draw(ctx) {
@@ -32,6 +34,6 @@ export default class EnemyManager {
             (this.roadRight - this.roadLeft - 24) +
             this.roadLeft;
 
-        this.enemies.push(new Enemy(x, -40));
+        this.enemies.push(new Enemy(x, -40,Math.floor(Math.random() * 2.99)));
     }
 }
