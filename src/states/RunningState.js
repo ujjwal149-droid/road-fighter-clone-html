@@ -7,7 +7,6 @@ import EnemyManager from "../EnemyManager.js";
 
 const levelDistance = 10000;
 
-
 export default class RunningState {
   constructor(game, road, player) {
     this.game = game;
@@ -18,6 +17,11 @@ export default class RunningState {
     this.roadRight = this.road.roadRight;
 
     this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
+
+    this.speed = 0;
+    this.maxSpeed = 1000;
+    this.acceleration = 2000;
+    this.drag = 1200; // natural slowdown
 
     this.maxFuel = 100;
     this.fuel = 100;
@@ -69,7 +73,7 @@ export default class RunningState {
 
     this.game.ctx.fillStyle = "red";
     this.game.ctx.fillRect(15, redY, 25, 25);
-    
+
     this.drawUI();
   }
 
@@ -108,18 +112,34 @@ export default class RunningState {
   }
 
   update(deltaTime) {
-    if (this.game.input.x) {
-      this.enemyManager.moveUp = false;
-      this.road.update(deltaTime);
-      if (this.distanceTravelled < levelDistance) {
-        this.distanceTravelled += this.road.speed * deltaTime;
-      }
-     
+    const input = this.game.input;
+    // ACCELERATION
+    if (input.x) {
+      this.speed += this.acceleration * deltaTime;
     }
-    this.enemyManager.update(deltaTime);
-    this.enemyManager.moveUp = true;
-    this.player.update(deltaTime, this.game.input);
-    // fuel
+
+    // DRAG (always applied)
+    this.speed -= this.drag * deltaTime;
+
+    // Clamp speed
+    if (this.speed < 0) this.speed = 0;
+    if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
+
+    // Move road based on speed
+    this.road.speed = this.speed;
+    this.road.update(deltaTime);
+
+    // Distance tracking
+    if (this.distanceTravelled < levelDistance) {
+      this.distanceTravelled += this.speed * deltaTime;
+    }
+
+    // Update enemies
+    this.enemyManager.update(deltaTime, this.speed);
+
+    // Update player
+    this.player.update(deltaTime, input);
+
     this.fuel -= this.fuelDrainRate * deltaTime;
     if (this.fuel <= 0) {
       this.fuel = 0;

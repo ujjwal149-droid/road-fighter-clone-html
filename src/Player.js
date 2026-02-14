@@ -4,7 +4,7 @@ export default class Player {
         this.y = y;
         this.width = 40;
         this.height = 40;
-        this.speed = 200;
+        this.speed = 300;
         this.image = new Image();
         this.image.src = "./assets/sprites/player-car.png"
 

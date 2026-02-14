@@ -9,8 +9,9 @@ export default class Road {
     this.roadLeft = 220;
     this.roadRight = this.roadLeft + this.roadWidth;
 
-    // Scrolling
     this.speed = 1000;
+
+
 
     // Segments
     this.segments = [];
@@ -50,6 +51,7 @@ export default class Road {
   update(deltaTime) {
     if (!this.loaded) return;
 
+    
     for (let segment of this.segments) {
       segment.y += this.speed * deltaTime;
     }

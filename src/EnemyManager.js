@@ -6,10 +6,9 @@ export default class EnemyManager {
         this.roadRight = roadRight;
         this.enemies = [];
         this.spawnTimer = 0;
-        this.moveUp = false;
     }
 
-    update(deltaTime) {
+    update(deltaTime, roadSpeed) {
         this.spawnTimer++;
 
         if (this.spawnTimer > 50) {
@@ -17,11 +16,11 @@ export default class EnemyManager {
             this.spawnTimer = 0;
         }
 
-        this.enemies.forEach(enemy => enemy.update(deltaTime, this.moveUp));
+        this.enemies.forEach(enemy => enemy.update(deltaTime, roadSpeed));
 
         // remove off-screen enemies
         this.enemies = this.enemies.filter(e => e.y < 600);
-        this.enemies = this.enemies.filter(e => e.y > -40);
+        this.enemies = this.enemies.filter(e => e.y > -50);
     }
 
     draw(ctx) {
