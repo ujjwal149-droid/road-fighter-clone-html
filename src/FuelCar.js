@@ -6,6 +6,7 @@ export default class FuelCar {
         this.height = 40;
         this.speed = -400;
         this.collected = false;
+        this.type = "fuel";
 
         this.image = new Image();
         this.image.src = "./assets/sprites/fuel-car.png";

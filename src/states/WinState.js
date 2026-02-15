@@ -109,7 +109,7 @@ export default class WinState {
     }
 
      // Update npc cars
-    this.trafficManager.update(deltaTime, -200);
+    this.trafficManager.update(deltaTime, -200, this.player);
   }
 
   handleInput() {}

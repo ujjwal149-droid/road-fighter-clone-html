@@ -6,7 +6,7 @@ import GameOverState from "./GameOverState.js";
 import TrafficManager from "../TrafficManager.js";
 import WinState from "./WinState.js";
 
-const levelDistance = 10000;
+const levelDistance = 100000;
 
 export default class RunningState {
   constructor(game, road, player) {
@@ -24,9 +24,14 @@ export default class RunningState {
     this.acceleration = 2000;
     this.drag = 1200; // natural slowdown
 
-    this.maxFuel = 100;
-    this.fuel = 100;
+    this.maxFuel = 60;
+    this.fuel = 60;
     this.fuelDrainRate = 1; // per second
+    this.fuelSound = new Audio("./assets/sounds/fuel-pickup.wav");
+    this.fuelSound.volume = 0.6;
+
+    this.engineSound = new Audio("./assets/sounds/engine.wav");
+    this.engineSound.volume =0;
 
     this.distanceTravelled = 0;
 
@@ -115,8 +120,13 @@ export default class RunningState {
   update(deltaTime) {
     const input = this.game.input;
     // ACCELERATION
-    if (input.x) {
+    if (input.x && !this.player.isExploding) {
       this.speed += this.acceleration * deltaTime;
+      this.engineSound.volume = 0.6
+      this.engineSound.play();
+    }else {
+      this.engineSound.pause();
+      this.engineSound.volume = 0;
     }
 
     // DRAG (always applied)
@@ -126,10 +136,13 @@ export default class RunningState {
     if (this.speed < 0) this.speed = 0;
     if (this.speed > this.maxSpeed) this.speed = this.maxSpeed;
 
-    // Move road based on speed
-    this.road.speed = this.speed;
-    this.road.update(deltaTime);
-
+    // Move road based on speed and stop when exploding
+    if (!this.player.isExploding) {
+      this.road.speed = this.speed;
+      this.road.update(deltaTime);
+    } else {
+      this.speed = 0;
+    }
     for (let segment of this.road.segments) {
       if (segment.isFinish) {
         const finishY = segment.y + this.road.finishLineOffset;
@@ -151,7 +164,25 @@ export default class RunningState {
     }
 
     // Update npc cars
-    this.trafficManager.update(deltaTime, this.speed);
+    const collision = this.trafficManager.update(
+      deltaTime,
+      this.speed,
+      this.player,
+    );
+
+    if (collision) {
+      if (collision.type === "FUEL") {
+        this.fuel += collision.amount;
+        if (this.fuel > this.maxFuel) this.fuel = this.maxFuel;
+        // Play sound
+        this.fuelSound.currentTime = 0;
+        this.fuelSound.play();
+      }
+
+      if (collision.type === "CRASH") {
+        this.player.crash();
+      }
+    }
 
     // Update player
     this.player.update(deltaTime, input);

@@ -5,6 +5,7 @@ export default class Enemy {
         this.width = 40;
         this.height = 40;
         this.speed = -400;
+        this.type = "enemy";
         this.image = new Image();
         this.image.src = `./assets/sprites/enemy-car${spriteNumber}.png`;
     }

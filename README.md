@@ -1,56 +1,43 @@
-# 🏁 Road Fighter Clone (HTML5 Canvas)
+# 🏎 Road Fighter Clone (HTML5 Canvas)
 
-A retro-style top-down racing game built using **HTML5 Canvas and vanilla JavaScript (ES Modules)**.
+A retro-style arcade racing game built using **vanilla JavaScript** and the **HTML5 Canvas API**.
 
-This project is a learning exercise focused on game architecture, state management, and frame-independent movement.
-
----
-
-## 🎮 Game Flow
-
-The game currently supports a complete loop:
-
-Menu → Countdown → Running → Win → Menu
-
-### Implemented States
-- MenuState
-- CountdownState
-- RunningState
-- WinState
-- (Basic) GameOverState
+This project was created to explore core game development concepts in JavaScript — including state management, animation systems, collision detection, and frame-independent movement.
 
 ---
 
-## 🚗 Current Features
+## 🎮 Features
 
-- Frame-independent game loop (deltaTime based)
-- Acceleration + drag system
-- Speed clamping
-- Infinite scrolling road (segment-based system)
-- Finish line detection
-- Win animation sequence
-- Basic UI (speed, fuel, level progress bar)
-
----
-
-## 🚧 Work In Progress
-
-The following systems are not yet implemented:
-
-- Enemy collision detection
-- Car explosion / blast animation
-- Fuel spawning and pickup logic
-- Score system logic
-- Sound effects
-- Difficulty scaling
+- State-based architecture (Menu → Countdown → Running → Win / Game Over)
+- Frame-independent movement using delta time
+- Smooth acceleration & drag system
+- Animated crash explosion (multi-frame)
+- Fuel pickup system with sound effects
+- Dynamic traffic spawning (enemies + fuel tankers)
+- Speed, fuel, and level progress UI
+- Finish line detection with win transition
 
 ---
 
-## 🧠 Architecture
+## 📸 Screenshots
 
-The project uses a **State Pattern**, where each game mode is handled by its own class.
+### 🚗 Gameplay
+![Gameplay](screenshots/Screenshot1.png)
 
-The road uses a **segment-based streaming system**, allowing future expansion (curves, checkpoints, environment transitions).
+### 🏁 Win State
+![Win](screenshots/Screenshot2.png)
+
+---
+
+## 🧠 Concepts Practiced
+
+- Game loop structure
+- Delta time physics
+- Object lifecycle management
+- Collision detection (AABB)
+- Sprite animation handling
+- Modular game states
+- Basic audio integration
 
 ---
 
@@ -58,21 +45,13 @@ The road uses a **segment-based streaming system**, allowing future expansion (c
 
 - HTML5 Canvas
 - Vanilla JavaScript (ES6 Modules)
-- requestAnimationFrame
-
-No external libraries used.
+- No external libraries
 
 ---
 
-## 🚀 How to Run
+## 🚀 Purpose
 
-1. Clone the repository
-2. Open `index.html` in a browser  
-   (or use Live Server in VS Code)
+Built to explore and understand how arcade-style games work internally — focusing on structure and systems rather than polish.
 
----
-
-## 📌 Status
-
-This is an ongoing learning project and is still incomplete.
-Additional gameplay systems and polish features will be added over time.
+**Made by Ujjawal Tyagi**  
+*(To explore game development in JavaScript)*

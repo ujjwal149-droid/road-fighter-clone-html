@@ -5,8 +5,8 @@ export default class Road {
 
     // Road layout
     this.chunkWidth = 480;
-    this.roadWidth = 210;
-    this.roadLeft = 220;
+    this.roadWidth = 240;
+    this.roadLeft = 205;
     this.roadRight = this.roadLeft + this.roadWidth;
 
     this.speed = 1000;
