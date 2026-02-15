@@ -23,9 +23,7 @@ This project was created to explore core game development concepts in JavaScript
 
 ### 🚗 Gameplay
 ![Gameplay](screenshots/Screenshot1.png)
-
-### 🏁 Win State
-![Win](screenshots/Screenshot2.png)
+![](screenshots/Screenshot2.png)
 
 ---
 
