@@ -3,7 +3,7 @@ import Road from "../Road.js";
 
 import GameOverState from "./GameOverState.js";
 
-import EnemyManager from "../EnemyManager.js";
+import TrafficManager from "../TrafficManager.js";
 import WinState from "./WinState.js";
 
 const levelDistance = 10000;
@@ -17,7 +17,7 @@ export default class RunningState {
     this.roadLeft = this.road.roadLeft;
     this.roadRight = this.road.roadRight;
 
-    this.enemyManager = new EnemyManager(this.roadLeft, this.roadRight);
+    this.trafficManager = new TrafficManager(this.roadLeft, this.roadRight);
 
     this.speed = 0;
     this.maxSpeed = 1000;
@@ -60,7 +60,7 @@ export default class RunningState {
     this.player.draw(this.game.ctx);
 
     // draw enemies
-    this.enemyManager.draw(this.game.ctx);
+    this.trafficManager.draw(this.game.ctx);
 
     // draw level progress bar
     const barHeight = this.game.canvas.height - 20;
@@ -150,8 +150,8 @@ export default class RunningState {
       this.road.triggerFinish();
     }
 
-    // Update enemies
-    this.enemyManager.update(deltaTime, this.speed);
+    // Update npc cars
+    this.trafficManager.update(deltaTime, this.speed);
 
     // Update player
     this.player.update(deltaTime, input);
@@ -177,7 +177,7 @@ export default class RunningState {
         this.game,
         this.road,
         this.player,
-        this.enemyManager,
+        this.trafficManager,
         this.distanceTravelled,
         this.fuel,
         this.score,

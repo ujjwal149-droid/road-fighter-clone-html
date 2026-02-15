@@ -3,8 +3,6 @@ import Road from "../Road.js";
 
 import RunningState from "./RunningState.js";
 
-import EnemyManager from "../EnemyManager.js";
-
 const levelDistance = 10000;
 
 export default class CountdownState {

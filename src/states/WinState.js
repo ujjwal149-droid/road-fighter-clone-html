@@ -1,13 +1,13 @@
 import MenuState from "./MenuState.js";
 
 export default class WinState {
-  constructor(game, road, player, enemyManager, distance, fuel, score) {
+  constructor(game, road, player, trafficManager, distance, fuel, score) {
     this.game = game;
 
     // Reuse world objects
     this.road = road;
     this.player = player;
-    this.enemyManager = enemyManager;
+    this.trafficManager = trafficManager;
 
     this.distanceTravelled = distance;
     this.fuel = fuel;
@@ -38,7 +38,7 @@ export default class WinState {
 
     // Draw world exactly like RunningState
     this.road.draw(ctx);
-    this.enemyManager.draw(ctx);
+    this.trafficManager.draw(ctx);
     this.player.draw(ctx);
 
     // Draw progress bar (copied from RunningState)
@@ -108,8 +108,8 @@ export default class WinState {
       }
     }
 
-     // Update enemies
-    this.enemyManager.update(deltaTime, -200);
+     // Update npc cars
+    this.trafficManager.update(deltaTime, -200);
   }
 
   handleInput() {}
